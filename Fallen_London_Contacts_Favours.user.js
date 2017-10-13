@@ -3,8 +3,9 @@
 // @namespace Fallen London Contacts Favours
 // @author Laurvin
 // @description Shows the Favours at the top of the page; you will need to refresh manually by clicking the bell icon.
-// @version 0.1
+// @version 0.2
 // @icon http://i.imgur.com/XYzKXzK.png
+// @downloadURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
 // @include http://fallenlondon.storynexus.com/Gap/Load*
 // @include https://fallenlondon.storynexus.com/Gap/Load*
 // @include http://fallenlondon.storynexus.com/Me/StatusesForCategory?category=Contacts
