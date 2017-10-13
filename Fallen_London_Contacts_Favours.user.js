@@ -3,7 +3,7 @@
 // @namespace Fallen London Contacts Favours
 // @author Laurvin
 // @description Shows the Favours at the top of the page; you will need to refresh manually by clicking the bell icon.
-// @version 0.3
+// @version 0.4
 // @icon http://i.imgur.com/XYzKXzK.png
 // @downloadURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
 // @include http://fallenlondon.storynexus.com/Gap/Load*
@@ -98,7 +98,7 @@ $(document).ready(function ()
 
 	// console.log("Starting!");
 
-	addGlobalStyle('#FLCF { float: left; margin-left: 10px; font-size: 12px; line-height: 10px; width: 72%; text-transform: none; }');
+	addGlobalStyle('#FLCF { float: left; margin-left: 25px; font-size: 12px; line-height: 10px; width: 72%; text-transform: none; }');
 	addGlobalStyle('.FLCFdivs { float: left; width: 7%; }');
 
 	if (location.href == 'http://fallenlondon.storynexus.com/Me/StatusesForCategory?category=Contacts')
