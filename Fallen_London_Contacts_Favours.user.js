@@ -3,14 +3,14 @@
 // @namespace Fallen London Contacts Favours
 // @author Laurvin
 // @description Shows the Favours at the top of the page; you will need to refresh manually by clicking the bell icon.
-// @version 0.5
+// @version 0.7
 // @icon http://i.imgur.com/XYzKXzK.png
 // @downloadURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
 // @include http://fallenlondon.storynexus.com/Gap/Load*
 // @include https://fallenlondon.storynexus.com/Gap/Load*
-// @include http://fallenlondon.storynexus.com/Me/StatusesForCategory?category=Contacts
+// @include https://fallenlondon.storynexus.com/Me/StatusesForCategory?category=Contacts
 // @require http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @grant GM_xmlhttpRequest
+// @grant none
 // @run-at document-idle
 // ==/UserScript==
 
@@ -70,7 +70,6 @@ function LoadFavours()
 {
 	$('span.tt > strong').each(function()
 	{
-		// var FavourText = $(this).text();
 		if($(this).text().indexOf("Favours:") >= 0)
 		{
 			Faction = $(this).text().substring(9, $(this).text().length-2);
@@ -80,14 +79,13 @@ function LoadFavours()
 			Favours[Faction] = FavAmount;
 		}
 	});
-
 }
 
 function receiveMessage (event)
 {
-	if (event.origin != "http://fallenlondon.storynexus.com") return;
+	if (event.origin != "https://fallenlondon.storynexus.com") return;
 
-    $("#FLCF").html (event.data);
+    	$("#FLCF").html (event.data);
 
 	$('#FLCFreload').click(ReloadIFrame);
 }
@@ -101,7 +99,7 @@ $(document).ready(function ()
 	addGlobalStyle('#FLCF { float: left; margin-left: 25px; font-size: 12px; line-height: 10px; width: 72%; text-transform: none; }');
 	addGlobalStyle('.FLCFdivs { float: left; width: 7%; }');
 
-	if (location.href == 'http://fallenlondon.storynexus.com/Me/StatusesForCategory?category=Contacts')
+	if (location.href == 'https://fallenlondon.storynexus.com/Me/StatusesForCategory?category=Contacts')
 	{
 		LoadFavours();
 
@@ -122,7 +120,7 @@ $(document).ready(function ()
 
 		window.addEventListener ("message", receiveMessage, false);
 
-		$("body").append('<iframe style="display:none !important;" src="http://fallenlondon.storynexus.com/Me/StatusesForCategory?category=Contacts" id="gmIframe"></iframe>');
+		$("body").append('<iframe style="display:none !important;" src="https://fallenlondon.storynexus.com/Me/StatusesForCategory?category=Contacts" id="gmIframe"></iframe>');
 
 	}
 	// console.log("Ending!");
