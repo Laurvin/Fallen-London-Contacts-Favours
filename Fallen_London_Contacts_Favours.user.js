@@ -3,7 +3,7 @@
 // @namespace Fallen London Contacts Favours
 // @author Laurvin
 // @description Shows the Favours at the top of the page; you will need to refresh manually by clicking the bell icon.
-// @version 0.9
+// @version 1.0
 // @icon http://i.imgur.com/XYzKXzK.png
 // @downloadURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
 // @include http://fallenlondon.storynexus.com/Gap/Load*
@@ -113,10 +113,10 @@ $(document).ready(function ()
 
 		$.each(Favours, function(faction, amount)
 		{
-			CreatedHTML += '<div class="FLCFdivs"><img height="26" width="20" border="0" src="//d39jqyxiuv7ej3.cloudfront.net/icons/' + FactionIcon[faction] + '.png" /> ' + amount + '</div>';
+			CreatedHTML += '<div class="FLCFdivs"><img height="26" width="20" border="0" src="http://images.fallenlondon.com/icons/' + FactionIcon[faction] + '.png" /> ' + amount + '</div>';
 		});
 
-		CreatedHTML += '<div class="FLCFdivs">&nbsp;</div><div class="FLCFdivs" id="FLCFreload" style="cursor:pointer"><img height="26" width="20" border="0" title="Reload" src="//d39jqyxiuv7ej3.cloudfront.net/icons/bellsmall.png" /></div>';
+		CreatedHTML += '<div class="FLCFdivs">&nbsp;</div><div class="FLCFdivs" id="FLCFreload" style="cursor:pointer"><img height="26" width="20" border="0" title="Reload" src="http://images.fallenlondon.com/icons/bellsmall.png" /></div>';
 
 		window.top.postMessage (CreatedHTML, "*");
 	}
