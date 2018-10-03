@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name Fallen London Contacts Favours
-// @namespace Fallen London Contacts Favours
+// @name Fallen London - Contacts Favours
+// @namespace Fallen London - Contacts Favours
 // @author Laurvin
 // @description Shows the Favours at the top of the page; you will need to refresh manually by clicking the bell icon.
 // @version 2.0
