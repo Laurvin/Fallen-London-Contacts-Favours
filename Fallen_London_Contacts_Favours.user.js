@@ -9,7 +9,7 @@
 // @include https://fallenlondon.com/*
 // @include https://www.fallenlondon.com/*
 // @require http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @grant GM_xmlhttpRequest
+// @grant none
 // @run-at document-idle
 // ==/UserScript==
 
@@ -66,16 +66,16 @@ function GetFavors()
 {
     var access_token = localStorage.getItem("access_token");
 
-    GM_xmlhttpRequest({
-        method: 'GET',
-        url: 'https://api.fallenlondon.com/api/character/myself',
-        headers: {
+	$.ajax({
+		method: 'GET',
+		url: 'https://api.fallenlondon.com/api/character/myself',
+		headers: {
             "authorization": "Bearer " + access_token,
             "accept": "application/json, text/plain, */*"
         },
-        timeout: 2000,
-        onload: function(response) {
-            var MySelfData = JSON.parse(response.responseText);
+		timeout: 3000,
+		success: function(result) {
+			var MySelfData = result;
 
             for (var i = 0; i < MySelfData.possessions.length; i++) {
                 if (MySelfData.possessions[i].name == "Contacts") {
@@ -103,15 +103,12 @@ function GetFavors()
                 event.preventDefault();
                 $('#FLCF').text("Loading Contact Favours...");
                 GetFavors();
-            });            
-        },
-        onerror: function(response) {
-            alert('Failed loading.');
-        },
-        ontimeout: function(response) {
-            alert('Timed out loading.');
-        }
-    });
+            });
+		},
+		error: function(xhr, status, errorThrown) {
+			console.log("Error! " + status + errorThrown);
+		}
+	});
 }
 
 $(document).ready(function() {
