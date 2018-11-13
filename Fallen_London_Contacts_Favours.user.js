@@ -3,7 +3,7 @@
 // @namespace Fallen London - Contacts Favours
 // @author Laurvin
 // @description Shows the Favours at the top of the page; you will need to refresh manually by clicking the bell icon.
-// @version 3.0
+// @version 3.1
 // @icon http://i.imgur.com/XYzKXzK.png
 // @downloadURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
 // @include https://fallenlondon.com/*
@@ -56,10 +56,10 @@ function addGlobalStyle(css)
     head.appendChild(style);
 }
 
-function addHTMLElements() // Adds a div for Contact icons and reload button.
+function addHTMLElements() // Adds a div for Contact icons and reload button, removes Fallen London logo.
 {
-    $('.site-title').append('<div id="FLCF"> Loading Contact Favours... </div>');
-    $("body").append('<div id="ContactPage1point0" style="display:none !important;"></div>');
+    $('.top-stripe__site-title').remove();
+    $('.top-stripe__inner-container').prepend('<div id="FLCF"> Loading Contact Favours... </div>');
 }
 
 function GetFavors()
@@ -114,14 +114,9 @@ function GetFavors()
 $(document).ready(function() {
     'use strict';
 
-    // 	console.log("Starting!");
-
-    addGlobalStyle('.site-title { background: none !important; cursor: auto !important; color: #bdb29e !important;}');
-    addGlobalStyle('#FLCF { margin-top: 7px; font-size: 14px; }');
+    addGlobalStyle('#FLCF { width: 600px; margin-top: 7px; font-size: 14px; }');
     addGlobalStyle('.FLCFdivs { float: left; width: 7%; }');
 
     setTimeout(addHTMLElements, 2 * 1000); // 2 seconds
     setTimeout(GetFavors, 2 * 1000); // 2 seconds
-
-    // 	console.log("Ending!");
 });
