@@ -3,7 +3,7 @@
 // @namespace Fallen London - Contacts Favours
 // @author Laurvin
 // @description Shows the Favours at the top of the page; you will need to refresh manually by clicking the bell icon.
-// @version 3.2
+// @version 3.3
 // @icon http://i.imgur.com/XYzKXzK.png
 // @downloadURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
 // @include https://fallenlondon.com/*
@@ -59,8 +59,15 @@ function addGlobalStyle(css)
 
 function addHTMLElements() // Adds a div for Contact icons and reload button, removes Fallen London logo.
 {
+    addGlobalStyle('#FLCF { width: 600px; margin-top: 7px; font-size: 14px; }');
+    addGlobalStyle('.FLCFdivs { float: left; width: 7%; }');
     $('.top-stripe__site-title').remove();
     $('.top-stripe__inner-container').prepend('<div id="FLCF"> Loading Contact Favours... </div>');
+	//$("li").find("[data-name='story']").click(function()
+	//{
+	//	addHTMLElements();
+    //    GetFavors();
+	//});
 }
 
 function GetFavors()
@@ -93,10 +100,10 @@ function GetFavors()
             var CreatedHTML = "";
 
             $.each(Favours, function(faction, amount) {
-                CreatedHTML += '<div class="FLCFdivs"><img height="20" width="20" border="0" src="https://images.fallenlondon.com/images/icons_small/' + FactionIcon[faction] + '.png" /> ' + amount + '</div>';
+                CreatedHTML += '<div class="FLCFdivs"><img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/' + FactionIcon[faction] + 'small.png" /> ' + amount + '</div>';
             });
 
-            CreatedHTML += '<div class="FLCFdivs">&nbsp;</div><div class="FLCFdivs" id="FLCFreload" style="cursor:pointer"><img height="20" width="20" border="0" title="Reload" src="https://images.fallenlondon.com/images/icons_small/bell.png" /></div>';
+            CreatedHTML += '<div class="FLCFdivs">&nbsp;</div><div class="FLCFdivs" id="FLCFreload" style="cursor:pointer"><img height="20" width="20" border="0" title="Reload" src="https://images.fallenlondon.com/icons/bellsmall.png" /></div>';
 
             $("#FLCF").html(CreatedHTML);
 
@@ -115,11 +122,6 @@ function GetFavors()
 $(document).ready(function() {
     'use strict';
 
-//     addGlobalStyle('#FLCF { width: 600px; margin-top: 7px; font-size: 14px; }');
-//     addGlobalStyle('.FLCFdivs { float: left; width: 7%; }');
-
-    setTimeout(addGlobalStyle, 2 * 1000, '#FLCF { width: 600px; margin-top: 7px; font-size: 14px; }')
-    setTimeout(addGlobalStyle, 2 * 1000, '.FLCFdivs { float: left; width: 7%; }')
-    setTimeout(addHTMLElements, 2 * 1000); // 2 seconds
-    setTimeout(GetFavors, 2 * 1000); // 2 seconds  
+    setTimeout(addHTMLElements, 6 * 1000); // x seconds
+    setTimeout(GetFavors, 6 * 1000); // x seconds
 });
