@@ -3,11 +3,12 @@
 // @namespace Fallen London - Contacts Favours
 // @author Laurvin
 // @description Shows the Favours at the top of the page; you will need to refresh manually by clicking the bell icon.
-// @version 3.3
+// @version 3.3.1
 // @icon http://i.imgur.com/XYzKXzK.png
 // @downloadURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
-// @include https://fallenlondon.com/*
-// @include https://www.fallenlondon.com/*
+// @updateURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
+// @match https://fallenlondon.com/*
+// @match https://www.fallenlondon.com/*
 // @require http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // @grant none
 // @run-at document-idle
@@ -62,12 +63,8 @@ function addHTMLElements() // Adds a div for Contact icons and reload button, re
     addGlobalStyle('#FLCF { width: 600px; margin-top: 7px; font-size: 14px; }');
     addGlobalStyle('.FLCFdivs { float: left; width: 7%; }');
     $('.top-stripe__site-title').remove();
+    $('#FLCF').remove();
     $('.top-stripe__inner-container').prepend('<div id="FLCF"> Loading Contact Favours... </div>');
-	//$("li").find("[data-name='story']").click(function()
-	//{
-	//	addHTMLElements();
-    //    GetFavors();
-	//});
 }
 
 function GetFavors()
@@ -81,7 +78,7 @@ function GetFavors()
             "authorization": "Bearer " + access_token,
             "accept": "application/json, text/plain, */*"
         },
-		timeout: 3000,
+		timeout: 5000,
 		success: function(result) {
 			var MySelfData = result;
 
@@ -115,6 +112,7 @@ function GetFavors()
 		},
 		error: function(xhr, status, errorThrown) {
 			console.log("Error! " + status + errorThrown);
+            $('#FLCF').text("Error! " + status + errorThrown);
 		}
 	});
 }
