@@ -3,7 +3,7 @@
 // @namespace Fallen London - Contacts Favours
 // @author Laurvin
 // @description Shows the Favours at the top of the page; you will need to refresh manually by clicking the bell icon.
-// @version 3.3.1
+// @version 4.0.0
 // @icon http://i.imgur.com/XYzKXzK.png
 // @downloadURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
 // @updateURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
@@ -44,30 +44,33 @@ FactionIcon['Favours: Bohemians'] = 'bohogirl1';
 FactionIcon['Favours: Revolutionaries'] = 'flames';
 FactionIcon['Favours: Society'] = 'salon2';
 
-function addGlobalStyle(css)
+function addGlobalStyle(name, css)
 {
-    var head, style;
-    head = document.getElementsByTagName('head')[0];
-    if (!head) {
-        return;
+    // Check if the style element exists in the head
+    if (!document.querySelector('head style[data-id="' + name + '"]')) {
+
+        // If the style element doesn't exist, create it
+        const styleEl = document.createElement('style');
+        styleEl.setAttribute('data-id', name);
+
+        // Add your styles to the style element
+        styleEl.innerHTML = css;
+
+        // Add the style element to the head
+        document.head.appendChild(styleEl);
     }
-    style = document.createElement('style');
-    style.type = 'text/css';
-    style.innerHTML = css;
-    head.appendChild(style);
-    console.log("Hey!");
 }
 
 function addHTMLElements() // Adds a div for Contact icons and reload button, removes Fallen London logo.
 {
-    addGlobalStyle('#FLCF { width: 600px; margin-top: 7px; font-size: 14px; }');
-    addGlobalStyle('.FLCFdivs { float: left; width: 7%; }');
+    addGlobalStyle('FLCF', '#FLCF { width: 600px; margin-top: 7px; font-size: 14px; }');
+    addGlobalStyle('FLCFdivs', '.FLCFdivs { float: left; width: 7%; }');
     $('.top-stripe__site-title').remove();
     $('#FLCF').remove();
     $('.top-stripe__inner-container').prepend('<div id="FLCF"> Loading Contact Favours... </div>');
 }
 
-function GetFavors()
+function GetFavours()
 {
     var access_token = localStorage.getItem("access_token");
 
@@ -107,7 +110,7 @@ function GetFavors()
             $('#FLCFreload').click(function(event) {
                 event.preventDefault();
                 $('#FLCF').text("Loading Contact Favours...");
-                GetFavors();
+                GetFavours();
             });
 		},
 		error: function(xhr, status, errorThrown) {
@@ -119,7 +122,16 @@ function GetFavors()
 
 $(document).ready(function() {
     'use strict';
+    let favoursIntervalId = null;
 
-    setTimeout(addHTMLElements, 6 * 1000); // x seconds
-    setTimeout(GetFavors, 6 * 1000); // x seconds
+    function updateFavours()
+    {
+        if (document.querySelector('.top-stripe__site-title'))
+        {
+            addHTMLElements();
+            GetFavours();
+        }
+    }
+
+    favoursIntervalId = setInterval(updateFavours, 20000);
 });
