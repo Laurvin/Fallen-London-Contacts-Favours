@@ -3,7 +3,7 @@
 // @namespace Fallen London - Contacts Favours
 // @author Laurvin
 // @description Shows the Favours at the top of the page; you will need to refresh manually by clicking the bell icon.
-// @version 4.0.0
+// @version 4.2.0
 // @icon http://i.imgur.com/XYzKXzK.png
 // @downloadURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
 // @updateURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
@@ -63,8 +63,8 @@ function addGlobalStyle(name, css)
 
 function addHTMLElements() // Adds a div for Contact icons and reload button, removes Fallen London logo.
 {
-    addGlobalStyle('FLCF', '#FLCF { width: 600px; margin-top: 7px; font-size: 14px; }');
-    addGlobalStyle('FLCFdivs', '.FLCFdivs { float: left; width: 7%; }');
+    addGlobalStyle('FLCF', '#FLCF { width: auto; margin-top: 7px; font-size: 14px; }');
+    addGlobalStyle('FLCFdivs', '.FLCFdivs { float: left; width: auto; margin-right: 1em; }');
     $('.top-stripe__site-title').remove();
     $('#FLCF').remove();
     $('.top-stripe__inner-container').prepend('<div id="FLCF"> Loading Contact Favours... </div>');
@@ -84,16 +84,27 @@ function GetFavours()
 		timeout: 5000,
 		success: function(result) {
 			var MySelfData = result;
-
+            // console.log(MySelfData);
             for (var i = 0; i < MySelfData.possessions.length; i++) {
                 if (MySelfData.possessions[i].name == "Contacts") {
                     var contactsID = i;
                 }
-            }
+                 if (MySelfData.possessions[i].name == "Stories") {
+                    var storiesID = i;
+                }
+           }
 
             for (i = 0; i < MySelfData.possessions[contactsID].possessions.length; i++) {
                 if (MySelfData.possessions[contactsID].possessions[i].name in Favours) {
                     Favours[MySelfData.possessions[contactsID].possessions[i].name] = MySelfData.possessions[contactsID].possessions[i].level;
+                }
+            }
+
+            var tasteGarden = 0;
+
+            for (i = 0; i < MySelfData.possessions[storiesID].possessions.length; i++) {
+                if (MySelfData.possessions[storiesID].possessions[i].qualityPossessedId == 69445506) {
+                    tasteGarden = MySelfData.possessions[storiesID].possessions[i].level;
                 }
             }
 
@@ -103,7 +114,13 @@ function GetFavours()
                 CreatedHTML += '<div class="FLCFdivs"><img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/' + FactionIcon[faction] + 'small.png" /> ' + amount + '</div>';
             });
 
-            CreatedHTML += '<div class="FLCFdivs">&nbsp;</div><div class="FLCFdivs" id="FLCFreload" style="cursor:pointer"><img height="20" width="20" border="0" title="Reload" src="https://images.fallenlondon.com/icons/bellsmall.png" /></div>';
+            CreatedHTML += '<div class="FLCFdivs"><img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/foliagesmall.png" /> ' + tasteGarden + '</div>';
+
+            CreatedHTML += '<div class="FLCFdivs"><img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/' + MySelfData.character.mantelpieceItem.image + 'small.png" /> ' + MySelfData.character.mantelpieceItem.effectiveLevel + '</div>';
+
+            CreatedHTML += '<div class="FLCFdivs"><img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/' + MySelfData.character.scrapbookStatus.image + 'small.png" /> ' + MySelfData.character.scrapbookStatus.effectiveLevel + '</div>';
+
+            CreatedHTML += '<div class="FLCFdivs" id="FLCFreload"><button class="button--link button--link-inverse" type="button" style="cursor: pointer; margin-left: 1em;"><i class="fa fa-refresh"></i></button></div>';
 
             $("#FLCF").html(CreatedHTML);
 
