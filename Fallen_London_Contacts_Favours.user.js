@@ -2,8 +2,8 @@
 // @name Fallen London - Contacts Favours
 // @namespace Fallen London - Contacts Favours
 // @author Laurvin
-// @description Shows the Favours at the top of the page; you will need to refresh manually by clicking the bell icon.
-// @version 4.2.0
+// @description Shows the Favours at the top of the page; will check every 20 seconds if the data is still there. To refresh the exact numbers click the reload icon.
+// @version 4.3.0
 // @icon http://i.imgur.com/XYzKXzK.png
 // @downloadURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
 // @updateURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
@@ -114,7 +114,7 @@ function GetFavours()
                 CreatedHTML += '<div class="FLCFdivs"><img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/' + FactionIcon[faction] + 'small.png" /> ' + amount + '</div>';
             });
 
-            CreatedHTML += '<div class="FLCFdivs"><img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/foliagesmall.png" /> ' + tasteGarden + '</div>';
+            if (tasteGarden > 0) { CreatedHTML += '<div class="FLCFdivs"><img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/foliagesmall.png" /> ' + tasteGarden + '</div>' };
 
             CreatedHTML += '<div class="FLCFdivs"><img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/' + MySelfData.character.mantelpieceItem.image + 'small.png" /> ' + MySelfData.character.mantelpieceItem.effectiveLevel + '</div>';
 
