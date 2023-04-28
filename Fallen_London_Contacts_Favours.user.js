@@ -3,7 +3,7 @@
 // @namespace Fallen London - Contacts Favours
 // @author Laurvin
 // @description Shows the Favours at the top of the page; will check every 20 seconds if the data is still there. To refresh the exact numbers click the reload icon.
-// @version 4.4.0
+// @version 4.5.0
 // @icon http://i.imgur.com/XYzKXzK.png
 // @downloadURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
 // @updateURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
@@ -13,6 +13,8 @@
 // @grant none
 // @run-at document-idle
 // ==/UserScript==
+
+/* globals jQuery, $ */
 
 this.$ = this.jQuery = jQuery.noConflict(true);
 
@@ -81,7 +83,7 @@ function GetFavours()
             "authorization": "Bearer " + access_token,
             "accept": "application/json, text/plain, */*"
         },
-		timeout: 5000,
+		timeout: 10000,
 		success: function(result) {
 			var MySelfData = result;
             // console.log(MySelfData);
@@ -131,8 +133,8 @@ function GetFavours()
             });
 		},
 		error: function(xhr, status, errorThrown) {
-			console.log("Error! " + status + errorThrown);
-            $('#FLCF').text("Error! " + status + errorThrown);
+			console.log("Error! " + status + " " + errorThrown);
+            $('#FLCF').text("Error! " + status + " " + errorThrown);
 		}
 	});
 }
