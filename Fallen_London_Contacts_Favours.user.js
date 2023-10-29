@@ -2,15 +2,16 @@
 // @name Fallen London - Contacts Favours
 // @namespace Fallen London - Contacts Favours
 // @author Laurvin
-// @description Shows the Favours at the top of the page; will check every 20 seconds if the data is still there. To refresh the exact numbers click the reload icon.
-// @version 4.5.0
+// @description Shows the Favours at the right or top of the page; will check every 20 seconds if the data is still there. To refresh click anywhere in the area, te relocate click the compass.
+// @version 5.0
 // @icon http://i.imgur.com/XYzKXzK.png
 // @downloadURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
 // @updateURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
 // @match https://fallenlondon.com/*
 // @match https://www.fallenlondon.com/*
 // @require http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
-// @grant none
+// @grant GM_setValue
+// @grant GM_getValue
 // @run-at document-idle
 // ==/UserScript==
 
@@ -63,13 +64,37 @@ function addGlobalStyle(name, css)
     }
 }
 
-function addHTMLElements() // Adds a div for Contact icons and reload button, removes Fallen London logo.
+function addHTMLElements(divLocation) // Adds divs for Contact icons and relocation button.
 {
-    addGlobalStyle('FLCF', '#FLCF { width: auto; margin-top: 7px; font-size: 14px; }');
-    addGlobalStyle('FLCFdivs', '.FLCFdivs { float: left; width: auto; margin-right: 1em; }');
-    $('.top-stripe__site-title').remove();
-    $('#FLCF').remove();
-    $('.top-stripe__inner-container').prepend('<div id="FLCF"> Loading Contact Favours... </div>');
+    addGlobalStyle('RightFLCF', '#RightFLCF { width: auto; margin: 18px 2px -17px 2px; text-align: center; font-size: 14px; }'); // Negative bottom margin for the 2 br's.
+    addGlobalStyle('TopFLCF', '#TopFLCF { width: auto; margin-top: 7px; font-size: 14px; }');
+
+    $('#RightFLCF').remove();
+    $('#TopFLCF').remove();
+
+    GM_setValue("divLocation", divLocation);
+
+    var MoveButtonLocation = "";
+
+    if (divLocation == 'top')
+    {
+    $('.top-stripe__site-title').remove(); // Removes Fallen London logo.
+    $('.top-stripe__inner-container').prepend('<div id="TopFLCF"><div id="ContainerFLCF"></div></div>');
+    MoveButtonLocation = "right";
+    }
+    else
+    {
+    $('button.travel-button--infobar').after('<div id="RightFLCF"><div id="ContainerFLCF"></div></div>');
+    MoveButtonLocation = "top";
+    }
+
+    $('#ContainerFLCF').append('<span id="FLCF" title="You can click anywhere here, up to the relocation button to reload."> Loading Contact Favours... &nbsp;</span><span id="MoveFLCF" title="Click here to move favours from top bar to under Travel button and vice versa."><img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/compasssmall.png" /></span>');
+
+    $('#MoveFLCF').click(function(event) {
+        event.preventDefault();
+        $('#ContainerFLCF').empty();
+        updateFavours(MoveButtonLocation);
+    });
 }
 
 function GetFavours()
@@ -113,16 +138,14 @@ function GetFavours()
             var CreatedHTML = "";
 
             $.each(Favours, function(faction, amount) {
-                CreatedHTML += '<div class="FLCFdivs"><img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/' + FactionIcon[faction] + 'small.png" /> ' + amount + '</div>';
+                CreatedHTML += '<span><img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/' + FactionIcon[faction] + 'small.png" />&nbsp;' + amount + '</span> &nbsp; ';
             });
 
-            if (tasteGarden > 0) { CreatedHTML += '<div class="FLCFdivs"><img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/foliagesmall.png" /> ' + tasteGarden + '</div>' };
+            if (tasteGarden > 0) { CreatedHTML += '<img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/foliagesmall.png" />&nbsp;' + tasteGarden + ' &nbsp; ' };
 
-            CreatedHTML += '<div class="FLCFdivs"><img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/' + MySelfData.character.mantelpieceItem.image + 'small.png" /> ' + MySelfData.character.mantelpieceItem.effectiveLevel + '</div>';
+            CreatedHTML += '<img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/' + MySelfData.character.mantelpieceItem.image + 'small.png" />&nbsp;' + MySelfData.character.mantelpieceItem.effectiveLevel + ' &nbsp; ';
 
-            CreatedHTML += '<div class="FLCFdivs"><img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/' + MySelfData.character.scrapbookStatus.image + 'small.png" /> ' + MySelfData.character.scrapbookStatus.effectiveLevel + '</div>';
-
-            CreatedHTML += '<div class="FLCFdivs" id="FLCFreload"><button class="button--link button--link-inverse" type="button" style="cursor: pointer; margin-left: 1em;"><i class="fa fa-refresh"></i></button></div>';
+            CreatedHTML += '<img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/' + MySelfData.character.scrapbookStatus.image + 'small.png" />&nbsp;' + MySelfData.character.scrapbookStatus.effectiveLevel + ' &nbsp; ';
 
             $("#FLCF").html(CreatedHTML);
 
@@ -139,18 +162,20 @@ function GetFavours()
 	});
 }
 
+function updateFavours(divLocation)
+{
+    if (!document.querySelector('#FLCF'))
+    {
+        addHTMLElements(divLocation);
+        GetFavours();
+    }
+}
+
 $(document).ready(function() {
     'use strict';
     let favoursIntervalId = null;
 
-    function updateFavours()
-    {
-        if (document.querySelector('.top-stripe__site-title'))
-        {
-            addHTMLElements();
-            GetFavours();
-        }
-    }
+    var divLocation = GM_getValue("divLocation", 'right');
 
-    favoursIntervalId = setInterval(updateFavours, 20000);
+    favoursIntervalId = setInterval(updateFavours, 20000, divLocation);
 });
