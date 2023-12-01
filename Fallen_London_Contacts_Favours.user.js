@@ -3,7 +3,7 @@
 // @namespace Fallen London - Contacts Favours
 // @author Laurvin
 // @description Shows the Favours at the right or top of the page; will check every 20 seconds if the data is still there. To refresh click anywhere in the area, te relocate click the compass.
-// @version 5.0
+// @version 5.1
 // @icon http://i.imgur.com/XYzKXzK.png
 // @downloadURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
 // @updateURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
@@ -100,6 +100,8 @@ function addHTMLElements(divLocation) // Adds divs for Contact icons and relocat
 function GetFavours()
 {
     var access_token = localStorage.getItem("access_token");
+
+    if (access_token == null) access_token = sessionStorage.getItem("access_token");
 
 	$.ajax({
 		method: 'GET',
