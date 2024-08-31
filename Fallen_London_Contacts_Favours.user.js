@@ -3,7 +3,7 @@
 // @namespace Fallen London - Contacts Favours
 // @author Laurvin
 // @description Shows the Favours at the right or top of the page; will check every 20 seconds if the data is still there. To refresh click anywhere in the area, te relocate click the compass.
-// @version 5.1
+// @version 5.3
 // @icon http://i.imgur.com/XYzKXzK.png
 // @downloadURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
 // @updateURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
@@ -18,34 +18,6 @@
 /* globals jQuery, $ */
 
 this.$ = this.jQuery = jQuery.noConflict(true);
-
-var Favours = {};
-Favours['Favours: Criminals'] = 0;
-Favours['Favours: The Docks'] = 0;
-Favours['Favours: Tomb-Colonies'] = 0;
-Favours['Favours: Rubbery Men'] = 0;
-Favours['Favours: Urchins'] = 0;
-Favours['Favours: Hell'] = 0;
-Favours['Favours: Constables'] = 0;
-Favours['Favours: The Great Game'] = 0;
-Favours['Favours: The Church'] = 0;
-Favours['Favours: Bohemians'] = 0;
-Favours['Favours: Revolutionaries'] = 0;
-Favours['Favours: Society'] = 0;
-
-var FactionIcon = {};
-FactionIcon['Favours: Criminals'] = 'manacles';
-FactionIcon['Favours: The Docks'] = 'ship';
-FactionIcon['Favours: Tomb-Colonies'] = 'bandagedman';
-FactionIcon['Favours: Rubbery Men'] = 'rubberyman';
-FactionIcon['Favours: Urchins'] = 'urchin';
-FactionIcon['Favours: Hell'] = 'devil';
-FactionIcon['Favours: Constables'] = 'constablebadge';
-FactionIcon['Favours: The Great Game'] = 'pawn';
-FactionIcon['Favours: The Church'] = 'clergy';
-FactionIcon['Favours: Bohemians'] = 'bohogirl1';
-FactionIcon['Favours: Revolutionaries'] = 'flames';
-FactionIcon['Favours: Society'] = 'salon2';
 
 function addGlobalStyle(name, css)
 {
@@ -99,6 +71,34 @@ function addHTMLElements(divLocation) // Adds divs for Contact icons and relocat
 
 function GetFavours()
 {
+    var Favours = {};
+    Favours['Favours: Criminals'] = 0;
+    Favours['Favours: The Docks'] = 0;
+    Favours['Favours: Tomb-Colonies'] = 0;
+    Favours['Favours: Rubbery Men'] = 0;
+    Favours['Favours: Urchins'] = 0;
+    Favours['Favours: Hell'] = 0;
+    Favours['Favours: Constables'] = 0;
+    Favours['Favours: The Great Game'] = 0;
+    Favours['Favours: The Church'] = 0;
+    Favours['Favours: Bohemians'] = 0;
+    Favours['Favours: Revolutionaries'] = 0;
+    Favours['Favours: Society'] = 0;
+
+    var FactionIcon = {};
+    FactionIcon['Favours: Criminals'] = 'manacles';
+    FactionIcon['Favours: The Docks'] = 'ship';
+    FactionIcon['Favours: Tomb-Colonies'] = 'bandagedman';
+    FactionIcon['Favours: Rubbery Men'] = 'rubberyman';
+    FactionIcon['Favours: Urchins'] = 'urchin';
+    FactionIcon['Favours: Hell'] = 'devil';
+    FactionIcon['Favours: Constables'] = 'constablebadge';
+    FactionIcon['Favours: The Great Game'] = 'pawn';
+    FactionIcon['Favours: The Church'] = 'clergy';
+    FactionIcon['Favours: Bohemians'] = 'bohogirl1';
+    FactionIcon['Favours: Revolutionaries'] = 'flames';
+    FactionIcon['Favours: Society'] = 'salon2';
+
     var access_token = localStorage.getItem("access_token");
 
     if (access_token == null) access_token = sessionStorage.getItem("access_token");
@@ -160,6 +160,7 @@ function GetFavours()
 		error: function(xhr, status, errorThrown) {
 			console.log("Error! " + status + " " + errorThrown);
             $('#FLCF').text("Error! " + status + " " + errorThrown);
+            GetFavours();
 		}
 	});
 }
@@ -179,5 +180,5 @@ $(document).ready(function() {
 
     var divLocation = GM_getValue("divLocation", 'right');
 
-    favoursIntervalId = setInterval(updateFavours, 20000, divLocation);
+    favoursIntervalId = setInterval(updateFavours, 15000, divLocation);
 });
