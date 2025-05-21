@@ -3,7 +3,7 @@
 // @namespace Fallen London - Contacts Favours
 // @author Laurvin
 // @description Shows the Favours at the right or top of the page; will check every 20 seconds if the data is still there. To refresh click anywhere in the area, te relocate click the compass.
-// @version 5.3
+// @version 5.4
 // @icon http://i.imgur.com/XYzKXzK.png
 // @downloadURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
 // @updateURL https://github.com/Laurvin/Fallen-London-Contacts-Favours/raw/master/Fallen_London_Contacts_Favours.user.js
@@ -145,9 +145,9 @@ function GetFavours()
 
             if (tasteGarden > 0) { CreatedHTML += '<img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/foliagesmall.png" />&nbsp;' + tasteGarden + ' &nbsp; ' };
 
-            CreatedHTML += '<img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/' + MySelfData.character.mantelpieceItem.image + 'small.png" />&nbsp;' + MySelfData.character.mantelpieceItem.effectiveLevel + ' &nbsp; ';
+            if (MySelfData.character.mantelpieceItem.image) CreatedHTML += '<img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/' + MySelfData.character.mantelpieceItem.image + 'small.png" />&nbsp;' + MySelfData.character.mantelpieceItem.effectiveLevel + ' &nbsp; ';
 
-            CreatedHTML += '<img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/' + MySelfData.character.scrapbookStatus.image + 'small.png" />&nbsp;' + MySelfData.character.scrapbookStatus.effectiveLevel + ' &nbsp; ';
+            if (MySelfData.character.scrapbookStatus.image) CreatedHTML += '<img height="20" width="20" border="0" src="https://images.fallenlondon.com/icons/' + MySelfData.character.scrapbookStatus.image + 'small.png" />&nbsp;' + MySelfData.character.scrapbookStatus.effectiveLevel + ' &nbsp; ';
 
             $("#FLCF").html(CreatedHTML);
 
