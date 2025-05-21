@@ -1,6 +1,8 @@
 # Fallen-London-Contacts-Favours
-Shows the Favours at the top of the page; you will need to refresh manually by clicking the bell icon.
+Shows how many Favours you have for each faction and will also she the value for Taste of the Garden (if you have it) and the values for your Mantlepiece and Scrapbook items.
 
-The icons for all factions are shown in the top bar between Help and your account name. To reload them click the right most icon (a bell).
+They are shown at either the side (below the Travel button) or the top of the page (in place of the Fallen London logo); click the compass icon to change between locations.
 
-All this script does is load the page that gets shown when you click Contacts on the Myself page and then grab the number of favours per faction to show them in the top bar.
+The Favours block will refresh any time you change tabs within Fallen London but can also be refreshed by clicking any of the (faction) icons except for the compass.
+
+How it works: this script loads the page that gets shown when you click Contacts on the Myself page and then grabs the number of favours per faction.
